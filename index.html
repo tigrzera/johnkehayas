@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John Kehayas | Video Editor</title>
+    <link rel="icon" type="image/png" href="jklogo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="top"></div>
+    
+    <!-- Static Background Anchored to Corners & Center -->
+    <div class="sea-background">
+        <div class="sea-blob sea-1"></div>
+        <div class="sea-blob sea-2"></div>
+        <div class="sea-blob sea-3"></div>
+        <div class="sea-blob sea-5"></div>
+        <div class="sea-blob sea-4"></div>
+    </div>
+
+    <!-- SaaS Navigation Bar -->
+    <nav class="navbar">
+        <a href="index.html#top" class="logo">JOHN KEHAYAS</a>
+        <ul class="nav-links">
+            <li><a href="index.html#top">Home</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#work">Work</a></li>
+            <li><a href="contact.html" class="nav-contact-btn">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Classic Centered Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <p class="eyebrow animate-up">JOHN KEHAYAS - PROFESSIONAL VIDEO EDITOR</p>
+            <h1 class="animate-up-delay">Elevating property through cinematic storytelling.</h1>
+            <p class="subtitle animate-up-delay-2">Turning homes into visual experiences.</p>
+            <div class="hero-actions animate-up-delay-3">
+                <a href="#about" class="btn-solid" id="viewWorkflowBtn">My Workflow</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="separator scroll-reveal"><div class="separator-line"></div></div>
+
+    <!-- About Section with Side-by-Side Video Carousel -->
+    <section id="about" class="modern-features scroll-reveal">
+        <div class="feature-row">
+            <div class="feature-image">
+                <div class="carousel-outer-wrapper">
+                    <!-- Interactive Carousel Player Side-by-Side with Frame.io 3x2 Asset Grid -->
+                    <div class="video-container" id="carouselContainer">
+                        <video id="heroVideo" src="assets/1142 County Road 43.mp4" preload="metadata" playsinline muted></video>
+                        
+                        <!-- Main Carousel Play Overlay Badge (Visible on load / when paused) -->
+                        <div class="carousel-play-overlay" id="carouselPlayOverlay">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        </div>
+
+                        <!-- Internal Frame.io Asset Grid View Layer -->
+                        <div class="player-grid-view" id="playerGridView">
+                            <div class="player-grid-cards">
+                                <div class="player-asset-card" data-index="0">
+                                    <video src="assets/1142 County Road 43.mp4" muted preload="auto" playsinline></video>
+                                    <div class="asset-title-overlay"><span>1142 County Road 43</span></div>
+                                </div>
+                                <div class="player-asset-card" data-index="1">
+                                    <video src="assets/373 Craig Road.mp4" muted preload="auto" playsinline></video>
+                                    <div class="asset-title-overlay"><span>373 Craig Road</span></div>
+                                </div>
+                                <div class="player-asset-card" data-index="2">
+                                    <video src="assets/36 Marchbrook Circle.mp4" muted preload="auto" playsinline></video>
+                                    <div class="asset-title-overlay"><span>36 Marchbrook Circle</span></div>
+                                </div>
+                                <div class="player-asset-card" data-index="3">
+                                    <video src="assets/Imagine Dragons - Believer (Make The Cut).mp4" muted preload="auto" playsinline></video>
+                                    <div class="asset-title-overlay"><span>Imagine Dragons - Believer</span></div>
+                                </div>
+                                <div class="player-asset-card" data-index="4">
+                                    <video src="assets/Nike Mock Advertisement - John Kehayas.mp4" muted preload="auto" playsinline></video>
+                                    <div class="asset-title-overlay"><span>Nike Mock Advertisement</span></div>
+                                </div>
+                                <div class="player-asset-card" data-index="5">
+                                    <video src="assets/R34 GTR Edit (Travis Scott - SDP Interlude).mp4" muted preload="auto" playsinline></video>
+                                    <div class="asset-title-overlay"><span>R34 GTR Edit</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Custom Frame.io Control Bar (Appears on hover) -->
+                        <div class="video-overlay-bar">
+                            <div class="control-left-group">
+                                <button class="overlay-btn" id="playPauseBtn" title="Play/Pause">
+                                    <svg id="playIcon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                    <svg id="pauseIcon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                                </button>
+                                <span class="overlay-title" id="overlayTitle">1142 County Road 43</span>
+                            </div>
+
+                            <!-- Interactive Timeline Scrubber -->
+                            <div class="timeline-container" id="timelineContainer">
+                                <div class="timeline-progress" id="timelineProgress"></div>
+                            </div>
+
+                            <div class="control-right-group">
+                                <span class="timecode" id="timecodeDisplay">0:00 / 0:00</span>
+                                
+                                <!-- Audio Wrapper with Seamless Hover Bridge -->
+                                <div class="audio-control-wrapper">
+                                    <div class="volume-slider-popup">
+                                        <div class="volume-slider-inner">
+                                            <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0">
+                                        </div>
+                                    </div>
+                                    <button class="overlay-btn" id="muteUnmuteBtn" title="Mute/Unmute">
+                                        <svg id="mutedIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                                        <svg id="unmutedIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                                    </button>
+                                </div>
+
+                                <button class="overlay-btn" id="prevVideoBtn" title="Previous Video">←</button>
+                                <button class="overlay-btn" id="nextVideoBtn" title="Next Video">→</button>
+                                <button class="overlay-btn grid-icon-btn" id="toggleGridBtn" title="Grid View">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="3" y="3" width="7" height="7"></rect>
+                                        <rect x="14" y="3" width="7" height="7"></rect>
+                                        <rect x="14" y="14" width="7" height="7"></rect>
+                                        <rect x="3" y="14" width="7" height="7"></rect>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Tip 1: Carousel Arrows (Outside Player Box) -->
+                    <div class="site-tip" id="carouselTip1">
+                        <span>Use these arrows to switch between projects!</span>
+                    </div>
+
+                    <!-- Interactive Tip 2: Grid Button (Outside Player Box) -->
+                    <div class="site-tip hidden" id="carouselTip2">
+                        <span>Click here to browse all assets in a grid!</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-content">
+                <h3 class="section-label">VISUAL STORYTELLING</h3>
+                <h2>Mastering the craft.</h2>
+                <p>I am a professional video editor specializing in making elegant property showcases. While studying Media Production and Design at Carleton University, I entered the field and learned the craft directly through hands on experience in the industry.</p>
+                
+                <div class="accordion-container">
+                    <button class="accordion">Intentional Cutting</button>
+                    <div class="panel">
+                        <p>I use Adobe Premiere Pro and After Effects, my expertise shines within my intentional cutting, framing, and song choice to keep viewer retention high.</p>
+                    </div>
+                    
+                    <button class="accordion">Curated Audio</button>
+                    <div class="panel">
+                        <p>I use carefully curated (copyright free) music tracks and audio mixing to elevate every listing, ensuring the atmosphere perfectly matches the feeling of the property.</p>
+                    </div>
+
+                    <button class="accordion">Spatial Flow</button>
+                    <div class="panel">
+                        <p>My editing makes you feel as though you are walking through the home yourself, deliberately holding on special architectural moments and standout objects.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-row reverse scroll-reveal">
+            <div class="feature-image">
+                <div class="image-container">
+                    <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=800&q=80" alt="Video Editing Timeline">
+                </div>
+            </div>
+            <div class="feature-content">
+                <h3 class="section-label">TECHNICAL EXPERTISE</h3>
+                <h2>Post-production precision.</h2>
+                <p>Every video is meticulously crafted in post to make the property stand out among the rest. If you want to turn a standard walkthrough into a cinematic tour, I am ready to work with you.</p>
+                
+                <div class="accordion-container">
+                    <button class="accordion">Advanced Color Grading</button>
+                    <div class="panel">
+                        <p>I am highly comfortable processing C-Log 3 footage and color grading all camera formats to bring out the richest, most natural tones in a space.</p>
+                    </div>
+
+                    <button class="accordion">Precision Stabilization</button>
+                    <div class="panel">
+                        <p>I refine every cut to smoothly transition from shot to shot, ensuring clean transitions that preserve the flow of the video.</p>
+                    </div>
+                    
+                    <button class="accordion">Dynamic Workflows</button>
+                    <div class="panel">
+                        <p>I stick to a 1-2 day turnaround time, my workflow is built for high-end results at industry speed.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="separator scroll-reveal"><div class="separator-line"></div></div>
+
+<!-- Portfolio Section -->
+    <section id="work" class="portfolio-section scroll-reveal">
+        <h3 class="section-label" style="text-align: center;">PORTFOLIO</h3>
+        <h2>Selected Works</h2>
+        
+        <div class="channel-link-container">
+            <a href="https://www.youtube.com/@johnkehayas" target="_blank" class="channel-link">View Portfolio on YouTube →</a>
+        </div>
+
+        <!-- Portfolio Grid with Custom Frame.io Players, Volume Sliders & Fullscreen -->
+        <div class="portfolio-grid">
+            <div class="video-card">
+                <div class="video-container custom-grid-player">
+                    <video src="assets/1142 County Road 43.mp4" preload="metadata" playsinline muted></video>
+                    <div class="carousel-play-overlay">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </div>
+                    <div class="video-overlay-bar">
+                        <div class="control-left-group">
+                            <button class="overlay-btn grid-play-btn" title="Play/Pause">
+                                <svg class="play-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                <svg class="pause-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                            </button>
+                            <span class="overlay-title">1142 County Road 43</span>
+                        </div>
+                        <div class="timeline-container grid-timeline">
+                            <div class="timeline-progress"></div>
+                        </div>
+                        <div class="control-right-group">
+                            <span class="timecode">0:00 / 0:00</span>
+                            
+                            <!-- Audio Wrapper with Volume Slider Popup -->
+                            <div class="audio-control-wrapper">
+                                <div class="volume-slider-popup">
+                                    <div class="volume-slider-inner">
+                                        <input type="range" class="grid-volume-slider" min="0" max="1" step="0.05" value="0">
+                                    </div>
+                                </div>
+                                <button class="overlay-btn grid-mute-btn" title="Mute/Unmute">
+                                    <svg class="muted-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                                    <svg class="unmuted-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                                </button>
+                            </div>
+
+                            <!-- Fullscreen Button -->
+                            <button class="overlay-btn grid-fullscreen-btn" title="Fullscreen">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <h3 style="margin-top: 1rem;">1142 County Road 43</h3>
+            </div>
+
+            <div class="video-card">
+                <div class="video-container custom-grid-player">
+                    <video src="assets/373 Craig Road.mp4" preload="metadata" playsinline muted></video>
+                    <div class="carousel-play-overlay">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </div>
+                    <div class="video-overlay-bar">
+                        <div class="control-left-group">
+                            <button class="overlay-btn grid-play-btn" title="Play/Pause">
+                                <svg class="play-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                <svg class="pause-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                            </button>
+                            <span class="overlay-title">373 Craig Road</span>
+                        </div>
+                        <div class="timeline-container grid-timeline">
+                            <div class="timeline-progress"></div>
+                        </div>
+                        <div class="control-right-group">
+                            <span class="timecode">0:00 / 0:00</span>
+                            <div class="audio-control-wrapper">
+                                <div class="volume-slider-popup">
+                                    <div class="volume-slider-inner">
+                                        <input type="range" class="grid-volume-slider" min="0" max="1" step="0.05" value="0">
+                                    </div>
+                                </div>
+                                <button class="overlay-btn grid-mute-btn" title="Mute/Unmute">
+                                    <svg class="muted-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                                    <svg class="unmuted-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                                </button>
+                            </div>
+                            <button class="overlay-btn grid-fullscreen-btn" title="Fullscreen">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <h3 style="margin-top: 1rem;">373 Craig Road</h3>
+            </div>
+
+            <div class="video-card">
+                <div class="video-container custom-grid-player">
+                    <video src="assets/36 Marchbrook Circle.mp4" preload="metadata" playsinline muted></video>
+                    <div class="carousel-play-overlay">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </div>
+                    <div class="video-overlay-bar">
+                        <div class="control-left-group">
+                            <button class="overlay-btn grid-play-btn" title="Play/Pause">
+                                <svg class="play-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                <svg class="pause-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                            </button>
+                            <span class="overlay-title">36 Marchbrook Circle</span>
+                        </div>
+                        <div class="timeline-container grid-timeline">
+                            <div class="timeline-progress"></div>
+                        </div>
+                        <div class="control-right-group">
+                            <span class="timecode">0:00 / 0:00</span>
+                            <div class="audio-control-wrapper">
+                                <div class="volume-slider-popup">
+                                    <div class="volume-slider-inner">
+                                        <input type="range" class="grid-volume-slider" min="0" max="1" step="0.05" value="0">
+                                    </div>
+                                </div>
+                                <button class="overlay-btn grid-mute-btn" title="Mute/Unmute">
+                                    <svg class="muted-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                                    <svg class="unmuted-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                                </button>
+                            </div>
+                            <button class="overlay-btn grid-fullscreen-btn" title="Fullscreen">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <h3 style="margin-top: 1rem;">36 Marchbrook Circle</h3>
+            </div>
+
+            <div class="video-card">
+                <div class="video-container custom-grid-player">
+                    <video src="assets/Imagine Dragons - Believer (Make The Cut).mp4" preload="metadata" playsinline muted></video>
+                    <div class="carousel-play-overlay">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </div>
+                    <div class="video-overlay-bar">
+                        <div class="control-left-group">
+                            <button class="overlay-btn grid-play-btn" title="Play/Pause">
+                                <svg class="play-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                <svg class="pause-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                            </button>
+                            <span class="overlay-title">Imagine Dragons - Believer</span>
+                        </div>
+                        <div class="timeline-container grid-timeline">
+                            <div class="timeline-progress"></div>
+                        </div>
+                        <div class="control-right-group">
+                            <span class="timecode">0:00 / 0:00</span>
+                            <div class="audio-control-wrapper">
+                                <div class="volume-slider-popup">
+                                    <div class="volume-slider-inner">
+                                        <input type="range" class="grid-volume-slider" min="0" max="1" step="0.05" value="0">
+                                    </div>
+                                </div>
+                                <button class="overlay-btn grid-mute-btn" title="Mute/Unmute">
+                                    <svg class="muted-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                                    <svg class="unmuted-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                                </button>
+                            </div>
+                            <button class="overlay-btn grid-fullscreen-btn" title="Fullscreen">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <h3 style="margin-top: 1rem;">Imagine Dragons - Believer (Make The Cut)</h3>
+            </div>
+
+            <div class="video-card">
+                <div class="video-container custom-grid-player">
+                    <video src="assets/Nike Mock Advertisement - John Kehayas.mp4" preload="metadata" playsinline muted></video>
+                    <div class="carousel-play-overlay">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </div>
+                    <div class="video-overlay-bar">
+                        <div class="control-left-group">
+                            <button class="overlay-btn grid-play-btn" title="Play/Pause">
+                                <svg class="play-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                <svg class="pause-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                            </button>
+                            <span class="overlay-title">Nike Mock Advertisement</span>
+                        </div>
+                        <div class="timeline-container grid-timeline">
+                            <div class="timeline-progress"></div>
+                        </div>
+                        <div class="control-right-group">
+                            <span class="timecode">0:00 / 0:00</span>
+                            <div class="audio-control-wrapper">
+                                <div class="volume-slider-popup">
+                                    <div class="volume-slider-inner">
+                                        <input type="range" class="grid-volume-slider" min="0" max="1" step="0.05" value="0">
+                                    </div>
+                                </div>
+                                <button class="overlay-btn grid-mute-btn" title="Mute/Unmute">
+                                    <svg class="muted-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                                    <svg class="unmuted-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                                </button>
+                            </div>
+                            <button class="overlay-btn grid-fullscreen-btn" title="Fullscreen">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <h3 style="margin-top: 1rem;">Nike Mock Advertisement - John Kehayas</h3>
+            </div>
+
+            <div class="video-card">
+                <div class="video-container custom-grid-player">
+                    <video src="assets/R34 GTR Edit (Travis Scott - SDP Interlude).mp4" preload="metadata" playsinline muted></video>
+                    <div class="carousel-play-overlay">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </div>
+                    <div class="video-overlay-bar">
+                        <div class="control-left-group">
+                            <button class="overlay-btn grid-play-btn" title="Play/Pause">
+                                <svg class="play-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                <svg class="pause-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                            </button>
+                            <span class="overlay-title">R34 GTR Edit</span>
+                        </div>
+                        <div class="timeline-container grid-timeline">
+                            <div class="timeline-progress"></div>
+                        </div>
+                        <div class="control-right-group">
+                            <span class="timecode">0:00 / 0:00</span>
+                            <div class="audio-control-wrapper">
+                                <div class="volume-slider-popup">
+                                    <div class="volume-slider-inner">
+                                        <input type="range" class="grid-volume-slider" min="0" max="1" step="0.05" value="0">
+                                    </div>
+                                </div>
+                                <button class="overlay-btn grid-mute-btn" title="Mute/Unmute">
+                                    <svg class="muted-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                                    <svg class="unmuted-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                                </button>
+                            </div>
+                            <button class="overlay-btn grid-fullscreen-btn" title="Fullscreen">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <h3 style="margin-top: 1rem;">R34 GTR Edit (Travis Scott - SDP Interlude)</h3>
+            </div>
+        </div>
+
+        <div class="portfolio-cta">
+            <a href="contact.html" class="btn-solid">Get in Contact</a>
+        </div>
+    </section>
+
+    <!-- Professional Anti-Spam Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>&copy; 2026 John Kehayas. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="index.html#top">Home</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#work">Work</a>
+                <a href="contact.html">Contact</a>
+                <a href="https://www.youtube.com/@johnkehayas" target="_blank">YouTube Portfolio</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
