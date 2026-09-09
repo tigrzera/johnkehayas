@@ -6,21 +6,51 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     window.scrollTo(0, 0);
 
-    // Optimized Cloudinary Auto-Transcoded & Compressed Streams
+    // Optimized Cloudinary Streams with Custom Poster & Hover Start Times (16s, 18s, 9s, 5s)
     const videos = [
-        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909996/1142_County_Road_43.mp4", title: "1142 County Road 43" },
-        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909996/373_Craig_Road.mp4", title: "373 Craig Road" },
-        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909996/36_Marchbrook_Circle.mp4", title: "36 Marchbrook Circle" },
-        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909993/Imagine_Dragons_-_Believer_Make_The_Cut.mp4", title: "Imagine Dragons - Believer (Make The Cut)" },
-        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909994/Nike_Mock_Advertisement_-_John_Kehayas.mp4", title: "Nike Mock Advertisement - John Kehayas" },
-        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909993/R34_GTR_Edit_Travis_Scott_-_SDP_Interlude.mp4", title: "R34 GTR Edit (Travis Scott - SDP Interlude)" }
+        { 
+            src: "https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909996/1142_County_Road_43.mp4", 
+            poster: "https://res.cloudinary.com/xxubsnyx/video/upload/so_16,w_800,f_auto,q_auto/v1788909996/1142_County_Road_43.jpg",
+            startTime: 16,
+            title: "1142 County Road 43" 
+        },
+        { 
+            src: "https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909996/373_Craig_Road.mp4", 
+            poster: "https://res.cloudinary.com/xxubsnyx/video/upload/so_18,w_800,f_auto,q_auto/v1788909996/373_Craig_Road.jpg",
+            startTime: 18,
+            title: "373 Craig Road" 
+        },
+        { 
+            src: "https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909996/36_Marchbrook_Circle.mp4", 
+            poster: "https://res.cloudinary.com/xxubsnyx/video/upload/so_9,w_800,f_auto,q_auto/v1788909996/36_Marchbrook_Circle.jpg",
+            startTime: 9,
+            title: "36 Marchbrook Circle" 
+        },
+        { 
+            src: "https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909993/Imagine_Dragons_-_Believer_Make_The_Cut.mp4", 
+            poster: "https://res.cloudinary.com/xxubsnyx/video/upload/so_5,w_800,f_auto,q_auto/v1788909993/Imagine_Dragons_-_Believer_Make_The_Cut.jpg",
+            startTime: 5,
+            title: "Imagine Dragons - Believer (Make The Cut)" 
+        },
+        { 
+            src: "https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909994/Nike_Mock_Advertisement_-_John_Kehayas.mp4", 
+            poster: "https://res.cloudinary.com/xxubsnyx/video/upload/so_5,w_800,f_auto,q_auto/v1788909994/Nike_Mock_Advertisement_-_John_Kehayas.jpg",
+            startTime: 5,
+            title: "Nike Mock Advertisement - John Kehayas" 
+        },
+        { 
+            src: "https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909993/R34_GTR_Edit_Travis_Scott_-_SDP_Interlude.mp4", 
+            poster: "https://res.cloudinary.com/xxubsnyx/video/upload/so_5,w_800,f_auto,q_auto/v1788909993/R34_GTR_Edit_Travis_Scott_-_SDP_Interlude.jpg",
+            startTime: 5,
+            title: "R34 GTR Edit (Travis Scott - SDP Interlude)" 
+        }
     ];
 
     let currentIndex = 0;
     
-    // Global Audio States for Hero Player
-    let globalMuted = true;
-    let globalVolume = 0;
+    // Global Audio States: Unmuted at 50% volume by default
+    let globalMuted = false;
+    let globalVolume = 0.5;
 
     const heroVideo = document.getElementById('heroVideo');
     const carouselContainer = document.getElementById('carouselContainer');
@@ -93,9 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // =========================================
     // Dynamic Carousel Tip Alignment
-    // =========================================
     function alignTip(tip, targetElement) {
         if (!tip || !targetElement) return;
         const wrapper = document.querySelector('.carousel-outer-wrapper');
@@ -108,13 +136,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const tipWidth = tip.offsetWidth || 230;
         const idealLeft = (targetCenterX - wrapperRect.left) - (tipWidth / 2);
         const clampedLeft = Math.max(10, Math.min(wrapperRect.width - tipWidth - 10, idealLeft));
-        tip.style.left = `${clampedLeft}px`;
+        tip.style.left = clampedLeft + 'px';
         tip.style.right = 'auto';
 
         const tipLeftOnScreen = wrapperRect.left + clampedLeft;
         const arrowLeft = (targetCenterX - tipLeftOnScreen) - 5;
         const clampedArrowLeft = Math.max(14, Math.min(tipWidth - 24, arrowLeft));
-        tip.style.setProperty('--arrow-left', `${clampedArrowLeft}px`);
+        tip.style.setProperty('--arrow-left', clampedArrowLeft + 'px');
     }
 
     function alignTipBetween(tip, el1, el2) {
@@ -130,13 +158,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const tipWidth = tip.offsetWidth || 260;
         const idealLeft = (targetCenterX - wrapperRect.left) - (tipWidth / 2);
         const clampedLeft = Math.max(10, Math.min(wrapperRect.width - tipWidth - 10, idealLeft));
-        tip.style.left = `${clampedLeft}px`;
+        tip.style.left = clampedLeft + 'px';
         tip.style.right = 'auto';
 
         const tipLeftOnScreen = wrapperRect.left + clampedLeft;
         const arrowLeft = (targetCenterX - tipLeftOnScreen) - 5;
         const clampedArrowLeft = Math.max(14, Math.min(tipWidth - 24, arrowLeft));
-        tip.style.setProperty('--arrow-left', `${clampedArrowLeft}px`);
+        tip.style.setProperty('--arrow-left', clampedArrowLeft + 'px');
     }
 
     function alignCarouselTips() {
@@ -156,9 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', alignCarouselTips);
     window.addEventListener('load', alignCarouselTips);
 
-    // =========================================
     // Carousel Tooltip Sequence
-    // =========================================
     function dismissPlayTip() {
         if (!playTipDismissed) {
             playTipDismissed = true;
@@ -215,14 +241,12 @@ document.addEventListener('DOMContentLoaded', () => {
         navTipsCompleted = true;
     }
 
-    // =========================================
     // Core Player & Timeline Logic
-    // =========================================
     function formatTime(seconds) {
         if (isNaN(seconds)) return "0:00";
         const mins = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
-        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        return mins + ":" + (secs < 10 ? '0' : '') + secs;
     }
 
     function applyAudioState() {
@@ -247,6 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const v = videos[currentIndex];
         if (heroVideo) {
             heroVideo.src = v.src;
+            heroVideo.poster = v.poster;
             heroVideo.load();
             heroVideo.pause();
             isAtThumbnail = true;
@@ -258,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
             heroVideo.addEventListener('loadedmetadata', function() {
                 heroVideo.currentTime = 0;
                 if (timecodeDisplay) {
-                    timecodeDisplay.textContent = `${formatTime(0)} / ${formatTime(heroVideo.duration)}`;
+                    timecodeDisplay.textContent = formatTime(0) + " / " + formatTime(heroVideo.duration);
                 }
             }, { once: true });
         }
@@ -271,18 +296,32 @@ document.addEventListener('DOMContentLoaded', () => {
         applyAudioState();
         heroVideo.pause();
 
+        // Sync custom UI with native changes (like fullscreen native controls)
+        heroVideo.addEventListener('volumechange', () => {
+            globalMuted = heroVideo.muted;
+            globalVolume = heroVideo.volume;
+            if (volumeSlider) volumeSlider.value = globalVolume;
+            if (globalMuted || globalVolume === 0) {
+                if (mutedIcon) mutedIcon.style.display = 'block';
+                if (unmutedIcon) unmutedIcon.style.display = 'none';
+            } else {
+                if (mutedIcon) mutedIcon.style.display = 'none';
+                if (unmutedIcon) unmutedIcon.style.display = 'block';
+            }
+        });
+
         heroVideo.addEventListener('loadedmetadata', () => {
             if (timecodeDisplay) {
-                timecodeDisplay.textContent = `${formatTime(0)} / ${formatTime(heroVideo.duration)}`;
+                timecodeDisplay.textContent = formatTime(0) + " / " + formatTime(heroVideo.duration);
             }
         }, { once: true });
 
         heroVideo.addEventListener('timeupdate', () => {
             if (!isNaN(heroVideo.duration) && !isAtThumbnail) {
                 const percent = (heroVideo.currentTime / heroVideo.duration) * 100;
-                if (timelineProgress) timelineProgress.style.width = `${percent}%`;
+                if (timelineProgress) timelineProgress.style.width = percent + '%';
                 if (timecodeDisplay) {
-                    timecodeDisplay.textContent = `${formatTime(heroVideo.currentTime)} / ${formatTime(heroVideo.duration)}`;
+                    timecodeDisplay.textContent = formatTime(heroVideo.currentTime) + " / " + formatTime(heroVideo.duration);
                 }
             }
         });
@@ -307,14 +346,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         heroVideo.addEventListener('click', () => {
             if (document.fullscreenElement) return;
-            if (isGridOpen()) return;
             togglePlayState();
         });
     }
 
     function togglePlayState() {
         if (!heroVideo) return;
-        if (isGridOpen()) return;
         dismissPlayTip();
         if (heroVideo.paused) {
             if (isAtThumbnail) {
@@ -340,7 +377,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (centerPlayPauseBtn) {
         centerPlayPauseBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (isGridOpen()) return;
             togglePlayState();
         });
     }
@@ -348,7 +384,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (skipBackBtn && heroVideo) {
         skipBackBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (isGridOpen()) return;
             dismissPlayTip();
             if (!isNaN(heroVideo.duration)) {
                 heroVideo.currentTime = Math.max(0, heroVideo.currentTime - 5);
@@ -359,7 +394,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (skipForwardBtn && heroVideo) {
         skipForwardBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (isGridOpen()) return;
             dismissPlayTip();
             if (!isNaN(heroVideo.duration)) {
                 heroVideo.currentTime = Math.min(heroVideo.duration, heroVideo.currentTime + 5);
@@ -372,7 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.stopPropagation();
             globalMuted = !globalMuted;
             if (!globalMuted && globalVolume === 0) {
-                globalVolume = 1;
+                globalVolume = 0.5;
             }
             applyAudioState();
         });
@@ -393,7 +427,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (timelineContainer && heroVideo) {
         timelineContainer.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (isGridOpen()) return;
             dismissPlayTip();
             const rect = timelineContainer.getBoundingClientRect();
             const pos = (e.clientX - rect.left) / rect.width;
@@ -403,7 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (carouselContainer) carouselContainer.classList.add('is-playing');
                 }
                 heroVideo.currentTime = pos * heroVideo.duration;
-                if (timelineProgress) timelineProgress.style.width = `${pos * 100}%`;
+                if (timelineProgress) timelineProgress.style.width = (pos * 100) + '%';
             }
         });
     }
@@ -467,24 +500,41 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Popover Grid View Cards
+    // Popover Grid View Cards: Starts at startTime, plays for 5s on hover, resets to startTime on leave or timeout
     document.querySelectorAll('.player-asset-card').forEach((card, index) => {
         const vid = card.querySelector('video');
         if (vid && videos[index]) {
             vid.src = videos[index].src;
+            vid.poster = videos[index].poster;
+            const startT = videos[index].startTime;
+            let previewTimer = null;
+
+            vid.addEventListener('loadedmetadata', () => {
+                vid.currentTime = startT;
+            }, { once: true });
 
             card.addEventListener('mouseenter', () => {
+                if (previewTimer) clearTimeout(previewTimer);
+                vid.currentTime = startT;
                 vid.play().catch(() => {});
+
+                // Play for exactly 5 seconds then pause and reset to startTime
+                previewTimer = setTimeout(() => {
+                    vid.pause();
+                    vid.currentTime = startT;
+                }, 5000);
             });
 
             card.addEventListener('mouseleave', () => {
+                if (previewTimer) clearTimeout(previewTimer);
                 vid.pause();
-                vid.currentTime = 0;
+                vid.currentTime = startT;
             });
 
             card.addEventListener('click', (e) => {
                 e.stopPropagation();
-                const idx = parseInt(card.getAttribute('data-index'));
+                if (previewTimer) clearTimeout(previewTimer);
+                const idx = parseInt(card.getAttribute('data-index'), 10);
                 updateHeroPlayer(idx);
                 setGridState(false);
             });
@@ -510,18 +560,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (vid && videos[index]) {
             vid.src = videos[index].src;
+            vid.poster = videos[index].poster;
             vid.muted = true;
             vid.volume = 0;
 
+            // Sync portfolio grid custom UI with native/fullscreen audio changes
+            vid.addEventListener('volumechange', () => {
+                if (vid.muted || vid.volume === 0) {
+                    if (mutedIcon) mutedIcon.style.display = 'block';
+                    if (unmutedIcon) unmutedIcon.style.display = 'none';
+                    if (volSlider) volSlider.value = 0;
+                } else {
+                    if (mutedIcon) mutedIcon.style.display = 'none';
+                    if (unmutedIcon) unmutedIcon.style.display = 'block';
+                    if (volSlider) volSlider.value = vid.volume;
+                }
+            });
+
             vid.addEventListener('loadedmetadata', () => {
-                if (timecode) timecode.textContent = `${formatTime(0)} / ${formatTime(vid.duration)}`;
+                if (timecode) timecode.textContent = formatTime(0) + " / " + formatTime(vid.duration);
             }, { once: true });
 
             vid.addEventListener('timeupdate', () => {
                 if (!isNaN(vid.duration) && !isAtThumb) {
                     const pct = (vid.currentTime / vid.duration) * 100;
-                    if (progress) progress.style.width = `${pct}%`;
-                    if (timecode) timecode.textContent = `${formatTime(vid.currentTime)} / ${formatTime(vid.duration)}`;
+                    if (progress) progress.style.width = pct + '%';
+                    if (timecode) timecode.textContent = formatTime(vid.currentTime) + " / " + formatTime(vid.duration);
                 }
             });
 
@@ -531,7 +595,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 container.classList.remove('is-playing');
                 if (playIcon) playIcon.style.display = 'block';
                 if (pauseIcon) pauseIcon.style.display = 'none';
-                vid.currentTime = 0;
+                vid.currentTime = 5;
             });
 
             vid.addEventListener('play', () => {
@@ -582,7 +646,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             container.classList.add('is-playing');
                         }
                         vid.currentTime = pos * vid.duration;
-                        if (progress) progress.style.width = `${pos * 100}%`;
+                        if (progress) progress.style.width = (pos * 100) + '%';
                     }
                 });
             }
@@ -641,7 +705,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Keyboard Shortcuts
     document.addEventListener('keydown', (e) => {
         if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
-        if (isGridOpen()) return;
         if (heroVideo && !isNaN(heroVideo.duration)) {
             if (e.key === 'ArrowRight') {
                 e.preventDefault();
@@ -665,7 +728,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Scroll Reveal Animations
+    // Scroll Reveal Animations via Intersection Observer
     const observerOptions = {
         root: null,
         rootMargin: '0px 0px -50px 0px',
@@ -680,6 +743,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }, observerOptions);
 
     document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+    // Failsafe timer set to 5 seconds (5000 ms)
+    setTimeout(() => {
+        document.querySelectorAll('.scroll-reveal:not(.in-view)').forEach(el => {
+            el.classList.add('in-view');
+        });
+    }, 5000);
 
     // Accordion Handling
     document.querySelectorAll('.accordion').forEach(acc => {
@@ -698,7 +768,7 @@ document.addEventListener('DOMContentLoaded', () => {
             this.classList.toggle('active');
             const panel = this.nextElementSibling;
             if (panel) {
-                panel.style.maxHeight = panel.style.maxHeight ? null : `${panel.scrollHeight}px`;
+                panel.style.maxHeight = panel.style.maxHeight ? null : panel.scrollHeight + 'px';
             }
         });
     });

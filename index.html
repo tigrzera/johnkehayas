@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>John Kehayas | Video Editor</title>
     <link rel="icon" type="image/png" href="jklogo.png">
+    
+    <!-- Warm up connections early -->
     <link rel="preconnect" href="https://res.cloudinary.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,9 +41,9 @@
         <div class="hero-content">
             <p class="eyebrow animate-up">JOHN KEHAYAS - PROFESSIONAL VIDEO EDITOR</p>
             <h1 class="animate-up-delay">Elevating property through cinematic storytelling.</h1>
-            <p class="subtitle animate-up-delay-2">Turning homes into visual experiences.</p>
+            <p class="subtitle animate-up-delay-2">Turning homes into a visual experience.</p>
             <div class="hero-actions animate-up-delay-3">
-                <a href="#about" class="btn-solid" id="viewWorkflowBtn">My Workflow</a>
+                <a href="#about" class="btn-solid" id="viewWorkflowBtn">Learn More</a>
             </div>
         </div>
     </header>
@@ -54,7 +56,7 @@
             <div class="feature-image">
                 <div class="carousel-outer-wrapper">
                     <div class="video-container" id="carouselContainer">
-                        <video id="heroVideo" src="https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909996/1142_County_Road_43.mp4" preload="metadata" playsinline muted></video>
+                        <video id="heroVideo" src="https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909996/1142_County_Road_43.mp4" poster="https://res.cloudinary.com/xxubsnyx/video/upload/so_16,w_800,f_auto,q_auto/v1788909996/1142_County_Road_43.jpg" preload="auto" playsinline muted></video>
                         
                         <!-- Top Gradient Title Header -->
                         <div class="video-top-bar">
@@ -81,27 +83,27 @@
                         <div class="player-grid-view" id="playerGridView">
                             <div class="player-grid-cards">
                                 <div class="player-asset-card" data-index="0">
-                                    <video preload="metadata" muted playsinline></video>
+                                    <video preload="none" poster="https://res.cloudinary.com/xxubsnyx/video/upload/so_16,w_600,f_auto,q_auto/v1788909996/1142_County_Road_43.jpg" muted playsinline></video>
                                     <div class="asset-title-overlay"><span>1142 County Road 43</span></div>
                                 </div>
                                 <div class="player-asset-card" data-index="1">
-                                    <video preload="metadata" muted playsinline></video>
+                                    <video preload="none" poster="https://res.cloudinary.com/xxubsnyx/video/upload/so_18,w_600,f_auto,q_auto/v1788909996/373_Craig_Road.jpg" muted playsinline></video>
                                     <div class="asset-title-overlay"><span>373 Craig Road</span></div>
                                 </div>
                                 <div class="player-asset-card" data-index="2">
-                                    <video preload="metadata" muted playsinline></video>
+                                    <video preload="none" poster="https://res.cloudinary.com/xxubsnyx/video/upload/so_9,w_600,f_auto,q_auto/v1788909996/36_Marchbrook_Circle.jpg" muted playsinline></video>
                                     <div class="asset-title-overlay"><span>36 Marchbrook Circle</span></div>
                                 </div>
                                 <div class="player-asset-card" data-index="3">
-                                    <video preload="metadata" muted playsinline></video>
+                                    <video preload="none" poster="https://res.cloudinary.com/xxubsnyx/video/upload/so_5,w_600,f_auto,q_auto/v1788909993/Imagine_Dragons_-_Believer_Make_The_Cut.jpg" muted playsinline></video>
                                     <div class="asset-title-overlay"><span>Imagine Dragons - Believer</span></div>
                                 </div>
                                 <div class="player-asset-card" data-index="4">
-                                    <video preload="metadata" muted playsinline></video>
+                                    <video preload="none" poster="https://res.cloudinary.com/xxubsnyx/video/upload/so_5,w_600,f_auto,q_auto/v1788909994/Nike_Mock_Advertisement_-_John_Kehayas.jpg" muted playsinline></video>
                                     <div class="asset-title-overlay"><span>Nike Mock Advertisement</span></div>
                                 </div>
                                 <div class="player-asset-card" data-index="5">
-                                    <video preload="metadata" muted playsinline></video>
+                                    <video preload="none" poster="https://res.cloudinary.com/xxubsnyx/video/upload/so_5,w_600,f_auto,q_auto/v1788909993/R34_GTR_Edit_Travis_Scott_-_SDP_Interlude.jpg" muted playsinline></video>
                                     <div class="asset-title-overlay"><span>R34 GTR Edit</span></div>
                                 </div>
                             </div>
@@ -127,7 +129,7 @@
                                 <div class="audio-control-wrapper">
                                     <div class="volume-slider-popup">
                                         <div class="volume-slider-inner">
-                                            <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0">
+                                            <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0.5">
                                         </div>
                                     </div>
                                     <button class="overlay-btn" id="muteUnmuteBtn" title="Mute/Unmute">
@@ -241,11 +243,11 @@
             <a href="https://www.youtube.com/@johnkehayas" target="_blank" class="channel-link" id="youtubeLink">View Portfolio on YouTube →</a>
         </div>
 
-        <!-- Portfolio Grid with Optimized Cloudinary Streams -->
+        <!-- Portfolio Grid with Optimized Cloudinary Streams & Instant Posters -->
         <div class="portfolio-grid">
             <div class="video-card">
                 <div class="video-container custom-grid-player">
-                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909996/1142_County_Road_43.mp4" preload="metadata" playsinline muted></video>
+                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909996/1142_County_Road_43.mp4" poster="https://res.cloudinary.com/xxubsnyx/video/upload/so_16,w_800,f_auto,q_auto/v1788909996/1142_County_Road_43.jpg" preload="metadata" playsinline muted></video>
                     <div class="carousel-play-overlay">
                         <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                     </div>
@@ -286,7 +288,7 @@
 
             <div class="video-card">
                 <div class="video-container custom-grid-player">
-                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909996/373_Craig_Road.mp4" preload="metadata" playsinline muted></video>
+                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909996/373_Craig_Road.mp4" poster="https://res.cloudinary.com/xxubsnyx/video/upload/so_18,w_800,f_auto,q_auto/v1788909996/373_Craig_Road.jpg" preload="metadata" playsinline muted></video>
                     <div class="carousel-play-overlay">
                         <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                     </div>
@@ -325,7 +327,7 @@
 
             <div class="video-card">
                 <div class="video-container custom-grid-player">
-                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909996/36_Marchbrook_Circle.mp4" preload="metadata" playsinline muted></video>
+                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909996/36_Marchbrook_Circle.mp4" poster="https://res.cloudinary.com/xxubsnyx/video/upload/so_9,w_800,f_auto,q_auto/v1788909996/36_Marchbrook_Circle.jpg" preload="metadata" playsinline muted></video>
                     <div class="carousel-play-overlay">
                         <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                     </div>
@@ -364,7 +366,7 @@
 
             <div class="video-card">
                 <div class="video-container custom-grid-player">
-                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909993/Imagine_Dragons_-_Believer_Make_The_Cut.mp4" preload="metadata" playsinline muted></video>
+                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909993/Imagine_Dragons_-_Believer_Make_The_Cut.mp4" poster="https://res.cloudinary.com/xxubsnyx/video/upload/so_5,w_800,f_auto,q_auto/v1788909993/Imagine_Dragons_-_Believer_Make_The_Cut.jpg" preload="metadata" playsinline muted></video>
                     <div class="carousel-play-overlay">
                         <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                     </div>
@@ -403,7 +405,7 @@
 
             <div class="video-card">
                 <div class="video-container custom-grid-player">
-                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909994/Nike_Mock_Advertisement_-_John_Kehayas.mp4" preload="metadata" playsinline muted></video>
+                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909994/Nike_Mock_Advertisement_-_John_Kehayas.mp4" poster="https://res.cloudinary.com/xxubsnyx/video/upload/so_5,w_800,f_auto,q_auto/v1788909994/Nike_Mock_Advertisement_-_John_Kehayas.jpg" preload="metadata" playsinline muted></video>
                     <div class="carousel-play-overlay">
                         <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                     </div>
@@ -442,7 +444,7 @@
 
             <div class="video-card">
                 <div class="video-container custom-grid-player">
-                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909993/R34_GTR_Edit_Travis_Scott_-_SDP_Interlude.mp4" preload="metadata" playsinline muted></video>
+                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909993/R34_GTR_Edit_Travis_Scott_-_SDP_Interlude.mp4" poster="https://res.cloudinary.com/xxubsnyx/video/upload/so_5,w_800,f_auto,q_auto/v1788909993/R34_GTR_Edit_Travis_Scott_-_SDP_Interlude.jpg" preload="metadata" playsinline muted></video>
                     <div class="carousel-play-overlay">
                         <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                     </div>

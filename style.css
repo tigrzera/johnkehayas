@@ -134,7 +134,7 @@ body {
     box-shadow: 0 6px 20px rgba(94, 67, 243, 0.5) !important;
 }
 
-/* Hero Section */
+/* Hero Section (Original Format) */
 .hero {
     min-height: 75vh;
     padding: 6rem 5% 4rem 5%;
@@ -198,6 +198,47 @@ body {
     top: 0; left: 0;
     width: 100%; height: 100%;
     object-fit: cover;
+}
+
+/* Play Overlay Icon */
+.carousel-play-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 74px;
+    height: 74px;
+    background: rgba(10, 10, 14, 0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    z-index: 10;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 25px rgba(94, 67, 243, 0.3);
+}
+
+.carousel-play-overlay svg {
+    margin-left: 3px;
+}
+
+.video-container.is-playing .carousel-play-overlay,
+.video-container.grid-open .carousel-play-overlay {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+.video-container:hover .carousel-play-overlay {
+    transform: translate(-50%, -50%) scale(1.08);
+    background: var(--accent-glow);
+    border-color: var(--accent-glow);
+    box-shadow: 0 0 30px rgba(94, 67, 243, 0.6);
 }
 
 /* YouTube-Style Top Gradient Title Header */
@@ -355,23 +396,33 @@ body {
     50% { transform: translateY(-3px); }
 }
 
-/* Popover Grid View (Raised Stacking Level Above Center Controls) */
+/* Popover Grid View: Semi-Transparent Animated Overlay */
 .player-grid-view {
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(10, 10, 14, 0.92);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    z-index: 22; /* Sits directly on top of center controls (z-index 20) */
-    display: none;
+    top: 0; 
+    left: 0;
+    width: 100%; 
+    height: calc(100% - 52px);
+    background: rgba(10, 10, 14, 0);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 22;
+    display: flex;
     flex-direction: column;
-    padding: 1.25rem 1.25rem 3.5rem 1.25rem;
-    border-radius: 14px;
+    padding: 1.25rem;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.96);
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s ease;
+    pointer-events: none;
 }
 
 .player-grid-view.active {
-    display: flex;
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+    pointer-events: auto;
 }
 
 .player-grid-cards {
@@ -652,50 +703,6 @@ body {
     opacity: 0 !important;
     pointer-events: none !important;
     visibility: hidden !important;
-}
-
-/* Adaptive Responsive Control Bar Sizing */
-@container (max-width: 440px) {
-    .center-ctrl-btn.play-btn {
-        width: 42px;
-        height: 42px;
-    }
-    .center-ctrl-btn.skip-btn {
-        height: 32px;
-        padding: 0.35rem 0.6rem;
-        font-size: 0.68rem;
-    }
-    .carousel-center-controls {
-        gap: 0.6rem;
-    }
-}
-
-@container (max-width: 400px) {
-    .video-container .timecode {
-        display: none !important;
-    }
-    .video-overlay-bar {
-        padding: 0.35rem 0.5rem;
-        gap: 0.35rem;
-    }
-    .control-right-group {
-        gap: 0.2rem;
-    }
-    .overlay-btn {
-        width: 27px;
-        height: 27px;
-    }
-}
-
-/* Fallback Media Queries */
-@media (max-width: 440px) {
-    .video-container .timecode {
-        display: none !important;
-    }
-    .overlay-btn {
-        width: 27px;
-        height: 27px;
-    }
 }
 
 /* Typography & Layout */
