@@ -6,13 +6,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     window.scrollTo(0, 0);
 
+    // Cloudinary Direct Streaming URLs
     const videos = [
-        { src: "assets/1142 County Road 43.mp4", title: "1142 County Road 43" },
-        { src: "assets/373 Craig Road.mp4", title: "373 Craig Road" },
-        { src: "assets/36 Marchbrook Circle.mp4", title: "36 Marchbrook Circle" },
-        { src: "assets/Imagine Dragons - Believer (Make The Cut).mp4", title: "Imagine Dragons - Believer (Make The Cut)" },
-        { src: "assets/Nike Mock Advertisement - John Kehayas.mp4", title: "Nike Mock Advertisement - John Kehayas" },
-        { src: "assets/R34 GTR Edit (Travis Scott - SDP Interlude).mp4", title: "R34 GTR Edit (Travis Scott - SDP Interlude)" }
+        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/v1788909996/1142_County_Road_43.mp4", title: "1142 County Road 43" },
+        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/v1788909996/373_Craig_Road.mp4", title: "373 Craig Road" },
+        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/v1788909996/36_Marchbrook_Circle.mp4", title: "36 Marchbrook Circle" },
+        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/v1788909993/Imagine_Dragons_-_Believer_Make_The_Cut.mp4", title: "Imagine Dragons - Believer (Make The Cut)" },
+        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/v1788909994/Nike_Mock_Advertisement_-_John_Kehayas.mp4", title: "Nike Mock Advertisement - John Kehayas" },
+        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/v1788909993/R34_GTR_Edit_Travis_Scott_-_SDP_Interlude.mp4", title: "R34 GTR Edit (Travis Scott - SDP Interlude)" }
     ];
 
     let currentIndex = 0;
@@ -35,28 +36,158 @@ document.addEventListener('DOMContentLoaded', () => {
     const timelineContainer = document.getElementById('timelineContainer');
     const timelineProgress = document.getElementById('timelineProgress');
     const timecodeDisplay = document.getElementById('timecodeDisplay');
+    const carouselFullscreenBtn = document.getElementById('carouselFullscreenBtn');
+    const prevBtn = document.getElementById('prevVideoBtn');
+    const nextBtn = document.getElementById('nextVideoBtn');
+    const toggleGridBtn = document.getElementById('toggleGridBtn');
+
+    // Tooltip Elements
+    const carouselPlayTip = document.getElementById('carouselPlayTip');
     const carouselTip1 = document.getElementById('carouselTip1');
     const carouselTip2 = document.getElementById('carouselTip2');
 
     let isAtThumbnail = true;
-    let tip1Dismissed = false;
+    let playTipDismissed = false;
+    let navTipsTriggered = false;
+    let navTipsCompleted = false;
 
-    function dismissTip1() {
-        if (!tip1Dismissed && carouselTip1) {
-            tip1Dismissed = true;
-            carouselTip1.classList.add('hidden');
-            if (carouselTip2) {
-                setTimeout(() => carouselTip2.classList.remove('hidden'), 300);
-            }
+    let playbackTimer = null;
+    let tip1Timer = null;
+    let tip2Timer = null;
+
+    // Immediately present the play tip & pulsing play button
+    if (carouselPlayTip) {
+        carouselPlayTip.classList.add('active');
+    }
+    if (playPauseBtn) {
+        playPauseBtn.classList.add('tip-highlight');
+    }
+
+    // =========================================
+    // Dynamic Carousel Tip Alignment
+    // =========================================
+    function alignTip(tip, targetElement) {
+        if (!tip || !targetElement) return;
+        const wrapper = document.querySelector('.carousel-outer-wrapper');
+        if (!wrapper) return;
+
+        const wrapperRect = wrapper.getBoundingClientRect();
+        const targetRect = targetElement.getBoundingClientRect();
+        const targetCenterX = targetRect.left + (targetRect.width / 2);
+
+        const tipWidth = tip.offsetWidth || 230;
+        const idealLeft = (targetCenterX - wrapperRect.left) - (tipWidth / 2);
+        const clampedLeft = Math.max(10, Math.min(wrapperRect.width - tipWidth - 10, idealLeft));
+        tip.style.left = `${clampedLeft}px`;
+        tip.style.right = 'auto';
+
+        const tipLeftOnScreen = wrapperRect.left + clampedLeft;
+        const arrowLeft = (targetCenterX - tipLeftOnScreen) - 5;
+        const clampedArrowLeft = Math.max(14, Math.min(tipWidth - 24, arrowLeft));
+        tip.style.setProperty('--arrow-left', `${clampedArrowLeft}px`);
+    }
+
+    function alignTipBetween(tip, el1, el2) {
+        if (!tip || !el1 || !el2) return;
+        const wrapper = document.querySelector('.carousel-outer-wrapper');
+        if (!wrapper) return;
+
+        const wrapperRect = wrapper.getBoundingClientRect();
+        const rect1 = el1.getBoundingClientRect();
+        const rect2 = el2.getBoundingClientRect();
+        const targetCenterX = (rect1.left + rect2.right) / 2;
+
+        const tipWidth = tip.offsetWidth || 260;
+        const idealLeft = (targetCenterX - wrapperRect.left) - (tipWidth / 2);
+        const clampedLeft = Math.max(10, Math.min(wrapperRect.width - tipWidth - 10, idealLeft));
+        tip.style.left = `${clampedLeft}px`;
+        tip.style.right = 'auto';
+
+        const tipLeftOnScreen = wrapperRect.left + clampedLeft;
+        const arrowLeft = (targetCenterX - tipLeftOnScreen) - 5;
+        const clampedArrowLeft = Math.max(14, Math.min(tipWidth - 24, arrowLeft));
+        tip.style.setProperty('--arrow-left', `${clampedArrowLeft}px`);
+    }
+
+    function alignCarouselTips() {
+        if (carouselPlayTip && playPauseBtn) {
+            alignTip(carouselPlayTip, playPauseBtn);
+        }
+        if (carouselTip1 && prevBtn && nextBtn) {
+            alignTipBetween(carouselTip1, prevBtn, nextBtn);
+        }
+        if (carouselTip2 && toggleGridBtn) {
+            alignTip(carouselTip2, toggleGridBtn);
+        }
+    }
+
+    alignCarouselTips();
+    setTimeout(alignCarouselTips, 150);
+    window.addEventListener('resize', alignCarouselTips);
+    window.addEventListener('load', alignCarouselTips);
+
+    // =========================================
+    // Carousel Tooltip Sequence
+    // =========================================
+    function dismissPlayTip() {
+        if (!playTipDismissed) {
+            playTipDismissed = true;
+            if (carouselPlayTip) carouselPlayTip.classList.remove('active');
+            if (playPauseBtn) playPauseBtn.classList.remove('tip-highlight');
+        }
+    }
+
+    function startPlaybackTipSequence() {
+        if (navTipsTriggered || navTipsCompleted) return;
+        
+        playbackTimer = setTimeout(() => {
+            navTipsTriggered = true;
+            showNavigationTips();
+        }, 2500);
+    }
+
+    function showNavigationTips() {
+        if (!carouselTip1 || navTipsCompleted) return;
+        
+        carouselTip1.classList.add('active');
+        if (prevBtn) prevBtn.classList.add('tip-highlight');
+        if (nextBtn) nextBtn.classList.add('tip-highlight');
+        alignCarouselTips();
+
+        tip1Timer = setTimeout(() => {
+            transitionToTip2();
+        }, 6000);
+    }
+
+    function transitionToTip2() {
+        if (tip1Timer) clearTimeout(tip1Timer);
+        if (carouselTip1) carouselTip1.classList.remove('active');
+        if (prevBtn) prevBtn.classList.remove('tip-highlight');
+        if (nextBtn) nextBtn.classList.remove('tip-highlight');
+
+        if (carouselTip2 && !navTipsCompleted) {
+            setTimeout(() => {
+                carouselTip2.classList.add('active');
+                if (toggleGridBtn) toggleGridBtn.classList.add('tip-highlight');
+                alignCarouselTips();
+
+                tip2Timer = setTimeout(() => {
+                    dismissTip2();
+                }, 6000);
+            }, 300);
         }
     }
 
     function dismissTip2() {
-        if (carouselTip2) {
-            carouselTip2.classList.add('hidden');
-        }
+        if (tip2Timer) clearTimeout(tip2Timer);
+        if (carouselTip2) carouselTip2.classList.remove('active');
+        if (toggleGridBtn) toggleGridBtn.classList.remove('tip-highlight');
+        navTipsCompleted = true;
     }
 
+    // =========================================
+    // Core Player & Timeline Logic
+    // =========================================
     function formatTime(seconds) {
         if (isNaN(seconds)) return "0:00";
         const mins = Math.floor(seconds / 60);
@@ -89,16 +220,18 @@ document.addEventListener('DOMContentLoaded', () => {
             heroVideo.load();
             heroVideo.pause();
             isAtThumbnail = true;
-            carouselContainer.classList.remove('is-playing');
+            if (carouselContainer) carouselContainer.classList.remove('is-playing');
             
             applyAudioState();
 
-            playIcon.style.display = 'block';
-            pauseIcon.style.display = 'none';
+            if (playIcon) playIcon.style.display = 'block';
+            if (pauseIcon) pauseIcon.style.display = 'none';
 
             heroVideo.addEventListener('loadedmetadata', function() {
                 heroVideo.currentTime = heroVideo.duration / 2;
-                timecodeDisplay.textContent = `${formatTime(heroVideo.currentTime)} / ${formatTime(heroVideo.duration)}`;
+                if (timecodeDisplay) {
+                    timecodeDisplay.textContent = `${formatTime(heroVideo.currentTime)} / ${formatTime(heroVideo.duration)}`;
+                }
             }, { once: true });
         }
         if (overlayTitle) {
@@ -112,57 +245,64 @@ document.addEventListener('DOMContentLoaded', () => {
 
         heroVideo.addEventListener('loadedmetadata', () => {
             heroVideo.currentTime = heroVideo.duration / 2;
-            timecodeDisplay.textContent = `${formatTime(heroVideo.currentTime)} / ${formatTime(heroVideo.duration)}`;
+            if (timecodeDisplay) {
+                timecodeDisplay.textContent = `${formatTime(heroVideo.currentTime)} / ${formatTime(heroVideo.duration)}`;
+            }
         }, { once: true });
 
         heroVideo.addEventListener('timeupdate', () => {
             if (!isNaN(heroVideo.duration) && !isAtThumbnail) {
                 const percent = (heroVideo.currentTime / heroVideo.duration) * 100;
-                timelineProgress.style.width = `${percent}%`;
-                timecodeDisplay.textContent = `${formatTime(heroVideo.currentTime)} / ${formatTime(heroVideo.duration)}`;
+                if (timelineProgress) timelineProgress.style.width = `${percent}%`;
+                if (timecodeDisplay) {
+                    timecodeDisplay.textContent = `${formatTime(heroVideo.currentTime)} / ${formatTime(heroVideo.duration)}`;
+                }
             }
+        });
+
+        heroVideo.addEventListener('play', () => {
+            dismissPlayTip();
+            startPlaybackTipSequence();
         });
 
         heroVideo.addEventListener('ended', () => {
             heroVideo.pause();
             isAtThumbnail = true;
-            carouselContainer.classList.remove('is-playing');
-            playIcon.style.display = 'block';
-            pauseIcon.style.display = 'none';
+            if (carouselContainer) carouselContainer.classList.remove('is-playing');
+            if (playIcon) playIcon.style.display = 'block';
+            if (pauseIcon) pauseIcon.style.display = 'none';
             heroVideo.currentTime = heroVideo.duration / 2;
         });
 
         heroVideo.addEventListener('click', () => {
             if (document.fullscreenElement) return;
-            dismissTip1();
             togglePlayState();
         });
     }
 
     function togglePlayState() {
         if (!heroVideo) return;
-        dismissTip1();
+        dismissPlayTip();
         if (heroVideo.paused) {
             if (isAtThumbnail) {
                 heroVideo.currentTime = 0;
                 isAtThumbnail = false;
             }
             heroVideo.play();
-            carouselContainer.classList.add('is-playing');
-            playIcon.style.display = 'none';
-            pauseIcon.style.display = 'block';
+            if (carouselContainer) carouselContainer.classList.add('is-playing');
+            if (playIcon) playIcon.style.display = 'none';
+            if (pauseIcon) pauseIcon.style.display = 'block';
         } else {
             heroVideo.pause();
-            carouselContainer.classList.remove('is-playing');
-            playIcon.style.display = 'block';
-            pauseIcon.style.display = 'none';
+            if (carouselContainer) carouselContainer.classList.remove('is-playing');
+            if (playIcon) playIcon.style.display = 'block';
+            if (pauseIcon) pauseIcon.style.display = 'none';
         }
     }
 
     if (playPauseBtn) {
         playPauseBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            dismissTip1();
             togglePlayState();
         });
     }
@@ -193,26 +333,77 @@ document.addEventListener('DOMContentLoaded', () => {
     if (timelineContainer && heroVideo) {
         timelineContainer.addEventListener('click', (e) => {
             e.stopPropagation();
-            dismissTip1();
+            dismissPlayTip();
             const rect = timelineContainer.getBoundingClientRect();
             const pos = (e.clientX - rect.left) / rect.width;
             if (!isNaN(heroVideo.duration)) {
                 if (isAtThumbnail) {
                     isAtThumbnail = false;
-                    carouselContainer.classList.add('is-playing');
+                    if (carouselContainer) carouselContainer.classList.add('is-playing');
                 }
                 heroVideo.currentTime = pos * heroVideo.duration;
-                timelineProgress.style.width = `${pos * 100}%`;
+                if (timelineProgress) timelineProgress.style.width = `${pos * 100}%`;
             }
         });
     }
 
-    // =========================================
-    // Internal Grid Asset Cards Logic (Fixed)
-    // =========================================
-    document.querySelectorAll('.player-asset-card').forEach(card => {
+    // Carousel Fullscreen Control
+    if (carouselFullscreenBtn && heroVideo) {
+        carouselFullscreenBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (heroVideo.requestFullscreen) {
+                heroVideo.requestFullscreen();
+            } else if (heroVideo.webkitRequestFullscreen) {
+                heroVideo.webkitRequestFullscreen();
+            } else if (heroVideo.msRequestFullscreen) {
+                heroVideo.msRequestFullscreen();
+            }
+        });
+    }
+
+    // Carousel Navigation Controls
+    if (prevBtn) {
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (carouselTip1 && carouselTip1.classList.contains('active')) {
+                transitionToTip2();
+            }
+            let newIdx = currentIndex - 1;
+            if (newIdx < 0) newIdx = videos.length - 1;
+            updateHeroPlayer(newIdx);
+            if (playerGridView) playerGridView.classList.remove('active');
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (carouselTip1 && carouselTip1.classList.contains('active')) {
+                transitionToTip2();
+            }
+            let newIdx = currentIndex + 1;
+            if (newIdx >= videos.length) newIdx = 0;
+            updateHeroPlayer(newIdx);
+            if (playerGridView) playerGridView.classList.remove('active');
+        });
+    }
+
+    if (toggleGridBtn && playerGridView) {
+        toggleGridBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (carouselTip2 && carouselTip2.classList.contains('active')) {
+                dismissTip2();
+            }
+            playerGridView.classList.toggle('active');
+        });
+    }
+
+    // Popover Grid View Cards
+    document.querySelectorAll('.player-asset-card').forEach((card, index) => {
         const vid = card.querySelector('video');
-        if (vid) {
+        if (vid && videos[index]) {
+            vid.src = videos[index].src;
+            
             if (vid.readyState >= 1 && !isNaN(vid.duration)) {
                 vid.currentTime = vid.duration / 2;
             } else {
@@ -230,13 +421,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 vid.pause();
                 vid.currentTime = vid.duration / 2;
             });
+
+            card.addEventListener('click', () => {
+                const idx = parseInt(card.getAttribute('data-index'));
+                updateHeroPlayer(idx);
+                if (playerGridView) {
+                    playerGridView.classList.remove('active');
+                }
+            });
         }
     });
 
-    // =========================================
     // Portfolio Grid Custom Players Logic
-    // =========================================
-    document.querySelectorAll('.custom-grid-player').forEach(container => {
+    document.querySelectorAll('.custom-grid-player').forEach((container, index) => {
         const vid = container.querySelector('video');
         const playBtn = container.querySelector('.grid-play-btn');
         const playIcon = container.querySelector('.play-icon');
@@ -252,25 +449,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let isAtThumb = true;
 
-        if (vid) {
+        if (vid && videos[index]) {
+            vid.src = videos[index].src;
             vid.muted = true;
             vid.volume = 0;
 
             if (vid.readyState >= 1 && !isNaN(vid.duration)) {
                 vid.currentTime = vid.duration / 2;
-                timecode.textContent = `${formatTime(vid.currentTime)} / ${formatTime(vid.duration)}`;
+                if (timecode) timecode.textContent = `${formatTime(vid.currentTime)} / ${formatTime(vid.duration)}`;
             } else {
                 vid.addEventListener('loadedmetadata', () => {
                     vid.currentTime = vid.duration / 2;
-                    timecode.textContent = `${formatTime(vid.currentTime)} / ${formatTime(vid.duration)}`;
+                    if (timecode) timecode.textContent = `${formatTime(vid.currentTime)} / ${formatTime(vid.duration)}`;
                 }, { once: true });
             }
 
             vid.addEventListener('timeupdate', () => {
                 if (!isNaN(vid.duration) && !isAtThumb) {
                     const pct = (vid.currentTime / vid.duration) * 100;
-                    progress.style.width = `${pct}%`;
-                    timecode.textContent = `${formatTime(vid.currentTime)} / ${formatTime(vid.duration)}`;
+                    if (progress) progress.style.width = `${pct}%`;
+                    if (timecode) timecode.textContent = `${formatTime(vid.currentTime)} / ${formatTime(vid.duration)}`;
                 }
             });
 
@@ -278,8 +476,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 vid.pause();
                 isAtThumb = true;
                 container.classList.remove('is-playing');
-                playIcon.style.display = 'block';
-                pauseIcon.style.display = 'none';
+                if (playIcon) playIcon.style.display = 'block';
+                if (pauseIcon) pauseIcon.style.display = 'none';
                 vid.currentTime = vid.duration / 2;
             });
 
@@ -289,15 +487,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     isAtThumb = false;
                 }
                 container.classList.add('is-playing');
-                playIcon.style.display = 'none';
-                pauseIcon.style.display = 'block';
+                if (playIcon) playIcon.style.display = 'none';
+                if (pauseIcon) pauseIcon.style.display = 'block';
             });
 
             vid.addEventListener('pause', () => {
                 if (!isAtThumb) {
                     container.classList.remove('is-playing');
-                    playIcon.style.display = 'block';
-                    pauseIcon.style.display = 'none';
+                    if (playIcon) playIcon.style.display = 'block';
+                    if (pauseIcon) pauseIcon.style.display = 'none';
                 }
             });
 
@@ -332,7 +530,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             container.classList.add('is-playing');
                         }
                         vid.currentTime = pos * vid.duration;
-                        progress.style.width = `${pos * 100}%`;
+                        if (progress) progress.style.width = `${pos * 100}%`;
                     }
                 });
             }
@@ -342,12 +540,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     e.stopPropagation();
                     vid.muted = !vid.muted;
                     if (vid.muted) {
-                        mutedIcon.style.display = 'block';
-                        unmutedIcon.style.display = 'none';
+                        if (mutedIcon) mutedIcon.style.display = 'block';
+                        if (unmutedIcon) unmutedIcon.style.display = 'none';
                         if (volSlider) volSlider.value = 0;
                     } else {
-                        mutedIcon.style.display = 'none';
-                        unmutedIcon.style.display = 'block';
+                        if (mutedIcon) mutedIcon.style.display = 'none';
+                        if (unmutedIcon) unmutedIcon.style.display = 'block';
                         vid.volume = volSlider ? parseFloat(volSlider.value) || 1 : 1;
                         if (volSlider && volSlider.value == 0) volSlider.value = 1;
                     }
@@ -361,11 +559,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     vid.volume = val;
                     vid.muted = (val === 0);
                     if (val === 0) {
-                        mutedIcon.style.display = 'block';
-                        unmutedIcon.style.display = 'none';
+                        if (mutedIcon) mutedIcon.style.display = 'block';
+                        if (unmutedIcon) unmutedIcon.style.display = 'none';
                     } else {
-                        mutedIcon.style.display = 'none';
-                        unmutedIcon.style.display = 'block';
+                        if (mutedIcon) mutedIcon.style.display = 'none';
+                        if (unmutedIcon) unmutedIcon.style.display = 'block';
                     }
                 });
                 volSlider.addEventListener('click', (e) => {
@@ -388,53 +586,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    const prevBtn = document.getElementById('prevVideoBtn');
-    const nextBtn = document.getElementById('nextVideoBtn');
-
-    if (prevBtn) {
-        prevBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            dismissTip1();
-            let newIdx = currentIndex - 1;
-            if (newIdx < 0) newIdx = videos.length - 1;
-            updateHeroPlayer(newIdx);
-            if (playerGridView) playerGridView.classList.remove('active');
-        });
-    }
-
-    if (nextBtn) {
-        nextBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            dismissTip1();
-            let newIdx = currentIndex + 1;
-            if (newIdx >= videos.length) newIdx = 0;
-            updateHeroPlayer(newIdx);
-            if (playerGridView) playerGridView.classList.remove('active');
-        });
-    }
-
-    const toggleGridBtn = document.getElementById('toggleGridBtn');
-
-    if (toggleGridBtn && playerGridView) {
-        toggleGridBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            dismissTip1();
-            dismissTip2();
-            playerGridView.classList.toggle('active');
-        });
-    }
-
-    const playerAssetCards = document.querySelectorAll('.player-asset-card');
-    playerAssetCards.forEach(card => {
-        card.addEventListener('click', () => {
-            const idx = parseInt(card.getAttribute('data-index'));
-            updateHeroPlayer(idx);
-            if (playerGridView) {
-                playerGridView.classList.remove('active');
-            }
-        });
-    });
-
+    // Keyboard Shortcuts
     document.addEventListener('keydown', (e) => {
         if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
         if (heroVideo && !isNaN(heroVideo.duration)) {
@@ -448,6 +600,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Workflow Scroll Button
     const viewWorkflowBtn = document.getElementById('viewWorkflowBtn');
     if (viewWorkflowBtn) {
         viewWorkflowBtn.addEventListener('click', (e) => {
@@ -459,6 +612,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Scroll Reveal Animations
     const observerOptions = {
         root: null,
         rootMargin: '0px 0px -50px 0px',
@@ -472,32 +626,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, observerOptions);
 
-    const revealElements = document.querySelectorAll('.scroll-reveal');
-    revealElements.forEach(el => observer.observe(el));
+    document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
 
-    // Accordion Logic
-    const accordions = document.querySelectorAll(".accordion");
-    accordions.forEach(acc => {
-        acc.addEventListener("click", function() {
+    // Accordion Handling
+    document.querySelectorAll('.accordion').forEach(acc => {
+        acc.addEventListener('click', function() {
             this.classList.add('dot-viewed');
 
-            accordions.forEach(otherAcc => {
-                if (otherAcc !== this && otherAcc.classList.contains("active")) {
-                    otherAcc.classList.remove("active");
+            document.querySelectorAll('.accordion').forEach(otherAcc => {
+                if (otherAcc !== this && otherAcc.classList.contains('active')) {
+                    otherAcc.classList.remove('active');
                     if (otherAcc.nextElementSibling) {
                         otherAcc.nextElementSibling.style.maxHeight = null;
                     }
                 }
             });
 
-            this.classList.toggle("active");
+            this.classList.toggle('active');
             const panel = this.nextElementSibling;
             if (panel) {
-                if (panel.style.maxHeight) {
-                    panel.style.maxHeight = null;
-                } else {
-                    panel.style.maxHeight = panel.scrollHeight + "px";
-                }
+                panel.style.maxHeight = panel.style.maxHeight ? null : `${panel.scrollHeight}px`;
             }
         });
     });
