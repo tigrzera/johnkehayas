@@ -53,11 +53,27 @@
             <div class="feature-image">
                 <div class="carousel-outer-wrapper">
                     <div class="video-container" id="carouselContainer">
-                        <video id="heroVideo" src="https://res.cloudinary.com/xxubsnyx/video/upload/v1788909996/1142_County_Road_43.mp4" preload="metadata" playsinline muted></video>
+                        <video id="heroVideo" src="https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909996/1142_County_Road_43.mp4" preload="metadata" playsinline muted></video>
                         
-                        <!-- Play Overlay Icon -->
-                        <div class="carousel-play-overlay">
-                            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <!-- Top Gradient Title Header -->
+                        <div class="video-top-bar">
+                            <span class="overlay-title" id="overlayTitle">1142 County Road 43</span>
+                        </div>
+
+                        <!-- Translucent Center Floating Controls (Hover Only) -->
+                        <div class="carousel-center-controls" id="carouselCenterControls">
+                            <button class="center-ctrl-btn skip-btn" id="skipBackBtn" title="Rewind 5s" aria-label="Rewind 5 seconds">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="11 17 6 12 11 7"></polyline><polyline points="18 17 13 12 18 7"></polyline></svg>
+                                <span class="skip-label">5s</span>
+                            </button>
+                            <button class="center-ctrl-btn play-btn" id="centerPlayPauseBtn" title="Play/Pause" aria-label="Play or Pause">
+                                <svg id="centerPlayIcon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
+                                <svg id="centerPauseIcon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                            </button>
+                            <button class="center-ctrl-btn skip-btn" id="skipForwardBtn" title="Skip 5s" aria-label="Skip forward 5 seconds">
+                                <span class="skip-label">5s</span>
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 17 18 12 13 7"></polyline><polyline points="6 17 11 12 6 7"></polyline></svg>
+                            </button>
                         </div>
 
                         <!-- Grid View Popover Inside Player -->
@@ -97,7 +113,6 @@
                                     <svg id="playIcon" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                                     <svg id="pauseIcon" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
                                 </button>
-                                <span class="overlay-title" id="overlayTitle">1142 County Road 43</span>
                             </div>
 
                             <!-- Interactive Timeline Scrubber -->
@@ -108,7 +123,6 @@
                             <div class="control-right-group">
                                 <span class="timecode" id="timecodeDisplay">0:00 / 0:00</span>
                                 
-                                <!-- Audio Wrapper with Hover Slider -->
                                 <div class="audio-control-wrapper">
                                     <div class="volume-slider-popup">
                                         <div class="volume-slider-inner">
@@ -226,11 +240,11 @@
             <a href="https://www.youtube.com/@johnkehayas" target="_blank" class="channel-link" id="youtubeLink">View Portfolio on YouTube →</a>
         </div>
 
-        <!-- Portfolio Grid with Custom Players, Volume Sliders & Fullscreen -->
+        <!-- Portfolio Grid with Optimized Cloudinary Streams -->
         <div class="portfolio-grid">
             <div class="video-card">
                 <div class="video-container custom-grid-player">
-                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/v1788909996/1142_County_Road_43.mp4" preload="metadata" playsinline muted></video>
+                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909996/1142_County_Road_43.mp4" preload="metadata" playsinline muted></video>
                     <div class="carousel-play-overlay">
                         <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                     </div>
@@ -261,7 +275,7 @@
                             </div>
 
                             <button class="overlay-btn grid-fullscreen-btn" title="Fullscreen">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
                             </button>
                         </div>
                     </div>
@@ -271,7 +285,7 @@
 
             <div class="video-card">
                 <div class="video-container custom-grid-player">
-                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/v1788909996/373_Craig_Road.mp4" preload="metadata" playsinline muted></video>
+                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909996/373_Craig_Road.mp4" preload="metadata" playsinline muted></video>
                     <div class="carousel-play-overlay">
                         <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                     </div>
@@ -300,7 +314,7 @@
                                 </button>
                             </div>
                             <button class="overlay-btn grid-fullscreen-btn" title="Fullscreen">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
                             </button>
                         </div>
                     </div>
@@ -310,7 +324,7 @@
 
             <div class="video-card">
                 <div class="video-container custom-grid-player">
-                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/v1788909996/36_Marchbrook_Circle.mp4" preload="metadata" playsinline muted></video>
+                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909996/36_Marchbrook_Circle.mp4" preload="metadata" playsinline muted></video>
                     <div class="carousel-play-overlay">
                         <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                     </div>
@@ -339,7 +353,7 @@
                                 </button>
                             </div>
                             <button class="overlay-btn grid-fullscreen-btn" title="Fullscreen">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
                             </button>
                         </div>
                     </div>
@@ -349,7 +363,7 @@
 
             <div class="video-card">
                 <div class="video-container custom-grid-player">
-                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/v1788909993/Imagine_Dragons_-_Believer_Make_The_Cut.mp4" preload="metadata" playsinline muted></video>
+                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909993/Imagine_Dragons_-_Believer_Make_The_Cut.mp4" preload="metadata" playsinline muted></video>
                     <div class="carousel-play-overlay">
                         <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                     </div>
@@ -378,7 +392,7 @@
                                 </button>
                             </div>
                             <button class="overlay-btn grid-fullscreen-btn" title="Fullscreen">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
                             </button>
                         </div>
                     </div>
@@ -388,7 +402,7 @@
 
             <div class="video-card">
                 <div class="video-container custom-grid-player">
-                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/v1788909994/Nike_Mock_Advertisement_-_John_Kehayas.mp4" preload="metadata" playsinline muted></video>
+                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909994/Nike_Mock_Advertisement_-_John_Kehayas.mp4" preload="metadata" playsinline muted></video>
                     <div class="carousel-play-overlay">
                         <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                     </div>
@@ -417,7 +431,7 @@
                                 </button>
                             </div>
                             <button class="overlay-btn grid-fullscreen-btn" title="Fullscreen">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
                             </button>
                         </div>
                     </div>
@@ -427,7 +441,7 @@
 
             <div class="video-card">
                 <div class="video-container custom-grid-player">
-                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/v1788909993/R34_GTR_Edit_Travis_Scott_-_SDP_Interlude.mp4" preload="metadata" playsinline muted></video>
+                    <video src="https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909993/R34_GTR_Edit_Travis_Scott_-_SDP_Interlude.mp4" preload="metadata" playsinline muted></video>
                     <div class="carousel-play-overlay">
                         <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                     </div>
@@ -435,7 +449,7 @@
                         <div class="control-left-group">
                             <button class="overlay-btn grid-play-btn" title="Play/Pause">
                                 <svg class="play-icon" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                                <svg class="pause-icon" width="13" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                                <svg class="pause-icon" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
                             </button>
                             <span class="overlay-title">R34 GTR Edit</span>
                         </div>
@@ -456,7 +470,7 @@
                                 </button>
                             </div>
                             <button class="overlay-btn grid-fullscreen-btn" title="Fullscreen">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
                             </button>
                         </div>
                     </div>

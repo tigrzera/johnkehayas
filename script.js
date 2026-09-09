@@ -6,14 +6,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     window.scrollTo(0, 0);
 
-    // Cloudinary Direct Streaming URLs
+    // Optimized Cloudinary Auto-Transcoded & Compressed Streams
     const videos = [
-        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/v1788909996/1142_County_Road_43.mp4", title: "1142 County Road 43" },
-        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/v1788909996/373_Craig_Road.mp4", title: "373 Craig Road" },
-        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/v1788909996/36_Marchbrook_Circle.mp4", title: "36 Marchbrook Circle" },
-        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/v1788909993/Imagine_Dragons_-_Believer_Make_The_Cut.mp4", title: "Imagine Dragons - Believer (Make The Cut)" },
-        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/v1788909994/Nike_Mock_Advertisement_-_John_Kehayas.mp4", title: "Nike Mock Advertisement - John Kehayas" },
-        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/v1788909993/R34_GTR_Edit_Travis_Scott_-_SDP_Interlude.mp4", title: "R34 GTR Edit (Travis Scott - SDP Interlude)" }
+        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909996/1142_County_Road_43.mp4", title: "1142 County Road 43" },
+        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909996/373_Craig_Road.mp4", title: "373 Craig Road" },
+        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909996/36_Marchbrook_Circle.mp4", title: "36 Marchbrook Circle" },
+        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909993/Imagine_Dragons_-_Believer_Make_The_Cut.mp4", title: "Imagine Dragons - Believer (Make The Cut)" },
+        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909994/Nike_Mock_Advertisement_-_John_Kehayas.mp4", title: "Nike Mock Advertisement - John Kehayas" },
+        { src: "https://res.cloudinary.com/xxubsnyx/video/upload/f_auto,q_auto,w_1280/v1788909993/R34_GTR_Edit_Travis_Scott_-_SDP_Interlude.mp4", title: "R34 GTR Edit (Travis Scott - SDP Interlude)" }
     ];
 
     let currentIndex = 0;
@@ -29,6 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const playPauseBtn = document.getElementById('playPauseBtn');
     const playIcon = document.getElementById('playIcon');
     const pauseIcon = document.getElementById('pauseIcon');
+    const centerPlayPauseBtn = document.getElementById('centerPlayPauseBtn');
+    const centerPlayIcon = document.getElementById('centerPlayIcon');
+    const centerPauseIcon = document.getElementById('centerPauseIcon');
+    const skipBackBtn = document.getElementById('skipBackBtn');
+    const skipForwardBtn = document.getElementById('skipForwardBtn');
     const muteUnmuteBtn = document.getElementById('muteUnmuteBtn');
     const mutedIcon = document.getElementById('mutedIcon');
     const unmutedIcon = document.getElementById('unmutedIcon');
@@ -55,12 +60,37 @@ document.addEventListener('DOMContentLoaded', () => {
     let tip1Timer = null;
     let tip2Timer = null;
 
+    function isGridOpen() {
+        return playerGridView && playerGridView.classList.contains('active');
+    }
+
+    function setGridState(open) {
+        if (!playerGridView) return;
+        if (open) {
+            playerGridView.classList.add('active');
+            if (carouselContainer) carouselContainer.classList.add('grid-open');
+        } else {
+            playerGridView.classList.remove('active');
+            if (carouselContainer) carouselContainer.classList.remove('grid-open');
+        }
+    }
+
     // Immediately present the play tip & pulsing play button
     if (carouselPlayTip) {
         carouselPlayTip.classList.add('active');
     }
     if (playPauseBtn) {
         playPauseBtn.classList.add('tip-highlight');
+    }
+
+    function updatePlayPauseIcons(isPlaying) {
+        if (playIcon) playIcon.style.display = isPlaying ? 'none' : 'block';
+        if (pauseIcon) pauseIcon.style.display = isPlaying ? 'block' : 'none';
+        if (centerPlayIcon) centerPlayIcon.style.display = isPlaying ? 'none' : 'block';
+        if (centerPauseIcon) centerPauseIcon.style.display = isPlaying ? 'block' : 'none';
+        if (centerPlayIcon) {
+            centerPlayIcon.style.marginLeft = isPlaying ? '0' : '2px';
+        }
     }
 
     // =========================================
@@ -223,14 +253,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (carouselContainer) carouselContainer.classList.remove('is-playing');
             
             applyAudioState();
-
-            if (playIcon) playIcon.style.display = 'block';
-            if (pauseIcon) pauseIcon.style.display = 'none';
+            updatePlayPauseIcons(false);
 
             heroVideo.addEventListener('loadedmetadata', function() {
-                heroVideo.currentTime = heroVideo.duration / 2;
+                heroVideo.currentTime = 0;
                 if (timecodeDisplay) {
-                    timecodeDisplay.textContent = `${formatTime(heroVideo.currentTime)} / ${formatTime(heroVideo.duration)}`;
+                    timecodeDisplay.textContent = `${formatTime(0)} / ${formatTime(heroVideo.duration)}`;
                 }
             }, { once: true });
         }
@@ -244,9 +272,8 @@ document.addEventListener('DOMContentLoaded', () => {
         heroVideo.pause();
 
         heroVideo.addEventListener('loadedmetadata', () => {
-            heroVideo.currentTime = heroVideo.duration / 2;
             if (timecodeDisplay) {
-                timecodeDisplay.textContent = `${formatTime(heroVideo.currentTime)} / ${formatTime(heroVideo.duration)}`;
+                timecodeDisplay.textContent = `${formatTime(0)} / ${formatTime(heroVideo.duration)}`;
             }
         }, { once: true });
 
@@ -263,40 +290,43 @@ document.addEventListener('DOMContentLoaded', () => {
         heroVideo.addEventListener('play', () => {
             dismissPlayTip();
             startPlaybackTipSequence();
+            updatePlayPauseIcons(true);
+        });
+
+        heroVideo.addEventListener('pause', () => {
+            updatePlayPauseIcons(false);
         });
 
         heroVideo.addEventListener('ended', () => {
             heroVideo.pause();
             isAtThumbnail = true;
             if (carouselContainer) carouselContainer.classList.remove('is-playing');
-            if (playIcon) playIcon.style.display = 'block';
-            if (pauseIcon) pauseIcon.style.display = 'none';
-            heroVideo.currentTime = heroVideo.duration / 2;
+            updatePlayPauseIcons(false);
+            heroVideo.currentTime = 0;
         });
 
         heroVideo.addEventListener('click', () => {
             if (document.fullscreenElement) return;
+            if (isGridOpen()) return;
             togglePlayState();
         });
     }
 
     function togglePlayState() {
         if (!heroVideo) return;
+        if (isGridOpen()) return;
         dismissPlayTip();
         if (heroVideo.paused) {
             if (isAtThumbnail) {
-                heroVideo.currentTime = 0;
                 isAtThumbnail = false;
             }
             heroVideo.play();
             if (carouselContainer) carouselContainer.classList.add('is-playing');
-            if (playIcon) playIcon.style.display = 'none';
-            if (pauseIcon) pauseIcon.style.display = 'block';
+            updatePlayPauseIcons(true);
         } else {
             heroVideo.pause();
             if (carouselContainer) carouselContainer.classList.remove('is-playing');
-            if (playIcon) playIcon.style.display = 'block';
-            if (pauseIcon) pauseIcon.style.display = 'none';
+            updatePlayPauseIcons(false);
         }
     }
 
@@ -304,6 +334,36 @@ document.addEventListener('DOMContentLoaded', () => {
         playPauseBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             togglePlayState();
+        });
+    }
+
+    if (centerPlayPauseBtn) {
+        centerPlayPauseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (isGridOpen()) return;
+            togglePlayState();
+        });
+    }
+
+    if (skipBackBtn && heroVideo) {
+        skipBackBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (isGridOpen()) return;
+            dismissPlayTip();
+            if (!isNaN(heroVideo.duration)) {
+                heroVideo.currentTime = Math.max(0, heroVideo.currentTime - 5);
+            }
+        });
+    }
+
+    if (skipForwardBtn && heroVideo) {
+        skipForwardBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (isGridOpen()) return;
+            dismissPlayTip();
+            if (!isNaN(heroVideo.duration)) {
+                heroVideo.currentTime = Math.min(heroVideo.duration, heroVideo.currentTime + 5);
+            }
         });
     }
 
@@ -333,6 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (timelineContainer && heroVideo) {
         timelineContainer.addEventListener('click', (e) => {
             e.stopPropagation();
+            if (isGridOpen()) return;
             dismissPlayTip();
             const rect = timelineContainer.getBoundingClientRect();
             const pos = (e.clientX - rect.left) / rect.width;
@@ -371,7 +432,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let newIdx = currentIndex - 1;
             if (newIdx < 0) newIdx = videos.length - 1;
             updateHeroPlayer(newIdx);
-            if (playerGridView) playerGridView.classList.remove('active');
+            setGridState(false);
         });
     }
 
@@ -384,7 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let newIdx = currentIndex + 1;
             if (newIdx >= videos.length) newIdx = 0;
             updateHeroPlayer(newIdx);
-            if (playerGridView) playerGridView.classList.remove('active');
+            setGridState(false);
         });
     }
 
@@ -394,7 +455,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (carouselTip2 && carouselTip2.classList.contains('active')) {
                 dismissTip2();
             }
-            playerGridView.classList.toggle('active');
+            const shouldOpen = !playerGridView.classList.contains('active');
+            setGridState(shouldOpen);
+        });
+    }
+
+    // Stop propagation on the grid overlay to protect background clicks
+    if (playerGridView) {
+        playerGridView.addEventListener('click', (e) => {
+            e.stopPropagation();
         });
     }
 
@@ -403,31 +472,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const vid = card.querySelector('video');
         if (vid && videos[index]) {
             vid.src = videos[index].src;
-            
-            if (vid.readyState >= 1 && !isNaN(vid.duration)) {
-                vid.currentTime = vid.duration / 2;
-            } else {
-                vid.addEventListener('loadedmetadata', () => {
-                    vid.currentTime = vid.duration / 2;
-                }, { once: true });
-            }
 
             card.addEventListener('mouseenter', () => {
-                vid.currentTime = 0;
                 vid.play().catch(() => {});
             });
 
             card.addEventListener('mouseleave', () => {
                 vid.pause();
-                vid.currentTime = vid.duration / 2;
+                vid.currentTime = 0;
             });
 
-            card.addEventListener('click', () => {
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
                 const idx = parseInt(card.getAttribute('data-index'));
                 updateHeroPlayer(idx);
-                if (playerGridView) {
-                    playerGridView.classList.remove('active');
-                }
+                setGridState(false);
             });
         }
     });
@@ -454,15 +513,9 @@ document.addEventListener('DOMContentLoaded', () => {
             vid.muted = true;
             vid.volume = 0;
 
-            if (vid.readyState >= 1 && !isNaN(vid.duration)) {
-                vid.currentTime = vid.duration / 2;
-                if (timecode) timecode.textContent = `${formatTime(vid.currentTime)} / ${formatTime(vid.duration)}`;
-            } else {
-                vid.addEventListener('loadedmetadata', () => {
-                    vid.currentTime = vid.duration / 2;
-                    if (timecode) timecode.textContent = `${formatTime(vid.currentTime)} / ${formatTime(vid.duration)}`;
-                }, { once: true });
-            }
+            vid.addEventListener('loadedmetadata', () => {
+                if (timecode) timecode.textContent = `${formatTime(0)} / ${formatTime(vid.duration)}`;
+            }, { once: true });
 
             vid.addEventListener('timeupdate', () => {
                 if (!isNaN(vid.duration) && !isAtThumb) {
@@ -478,12 +531,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 container.classList.remove('is-playing');
                 if (playIcon) playIcon.style.display = 'block';
                 if (pauseIcon) pauseIcon.style.display = 'none';
-                vid.currentTime = vid.duration / 2;
+                vid.currentTime = 0;
             });
 
             vid.addEventListener('play', () => {
                 if (isAtThumb) {
-                    vid.currentTime = 0;
                     isAtThumb = false;
                 }
                 container.classList.add('is-playing');
@@ -589,6 +641,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Keyboard Shortcuts
     document.addEventListener('keydown', (e) => {
         if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+        if (isGridOpen()) return;
         if (heroVideo && !isNaN(heroVideo.duration)) {
             if (e.key === 'ArrowRight') {
                 e.preventDefault();
